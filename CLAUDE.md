@@ -21,7 +21,8 @@ re-explicar. No preguntes cosas ya resueltas aquí; solo actúa.
    python weekly/update_sheet.py --stock-serum <N> --stock-champu <N> --ventas-serum <N>
    ```
    Opcionales: `--ventas-champu <N>` (def = unidades SHAMPOO de Shopify), `--date YYYY-MM-DD`
-   (def = hoy), `--no-write` (dry-run).
+   (def = hoy), `--no-write` (dry-run), `--lead-time <N>` (def = lo que haya en B45),
+   `--colchon <N>` (def = lo que haya en B46).
 4. El script sobrescribe las 3 hojas, verifica que no haya errores y **imprime el reporte**.
    Pásale ese reporte al usuario en el chat con el formato de abajo.
 
@@ -57,11 +58,17 @@ Serum (stock: X unidades)
 Champu (stock: X unidades)
 - (mismo formato)
 
-ALERTAS URGENTES: [solo estados URGENTE, con cuántas faltan]
 RECOMENDACION DE COMPRA INMEDIATA (30 dias): SERUM X · CHAMPU X
+
 CUANDO PEDIR (lead time Xd, colchon Xd)
-- SERUM:  pedir antes del <fecha> (quedan X dias) - stock se agota ~<fecha>
-- CHAMPU: pedir antes del <fecha> (quedan X dias) - stock se agota ~<fecha>
+- SERUM:  pedir antes del <fecha> (quedan X dias) - stock se agota ~<fecha> [aviso]
+- CHAMPU: pedir antes del <fecha> (quedan X dias) - stock se agota ~<fecha> [aviso]
+  (no descuenta pedidos ya en camino)
+
+ALERTAS URGENTES: [solo estados URGENTE, con cuántas faltan]
+
+ERRORES DE FORMULA: [lista de celdas con error, o NINGUNO]
+
 Notas semana a semana: [productos nuevos/que desaparecen, cambios grandes]
 ```
 
@@ -77,3 +84,6 @@ Notas semana a semana: [productos nuevos/que desaparecen, cambios grandes]
   correrlo si se rompe la sección CUANDO PEDIR. Es idempotente.
 - `weekly/verificar_fechas.py` contrasta las fechas del Sheet con `weekly/burndown.py`.
   Útil si alguna fecha parece rara.
+- Backup/restore del Sheet: `C:\Python314\python backups/backup_sheet.py` (guarda
+  `backups/sheet-<fecha>.json`) y `C:\Python314\python backups/backup_sheet.py --restore
+  backups/sheet-<fecha>.json` para revertir (reescribe fórmulas tal cual estaban).
