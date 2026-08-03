@@ -1,0 +1,1577 @@
+{
+ "Reporte Consolidado": {
+  "rango": "A1:H80",
+  "formulas": [
+   [
+    "REPORTE CONSOLIDADO SEMANAL - STOCK Y DEMANDA"
+   ],
+   [
+    "Fecha de generación: 2026-08-03"
+   ],
+   [],
+   [
+    "INPUTS EDITABLES (celdas amarillas)"
+   ],
+   [
+    "Concepto",
+    "Valor",
+    "Detalle"
+   ],
+   [
+    "Stock actual SERUM",
+    3868,
+    "Unidades físicas en almacén"
+   ],
+   [
+    "Stock en beeping, pendiente de ingresar",
+    1632,
+    "Unidades físicas en almacén, no disponibles aún"
+   ],
+   [
+    "Stock actual CHAMPU",
+    1078,
+    "Unidades físicas en almacén"
+   ],
+   [
+    "Ventas SERUM no-suscripción (últimos 7d)",
+    138
+   ],
+   [
+    "Ventas CHAMPU no-suscripción (últimos 7d)",
+    52
+   ],
+   [
+    "Semanas en el mes (constante)",
+    4.33,
+    "30/7"
+   ],
+   [
+    "Semanas en 3 meses",
+    13,
+    "13 semanas"
+   ],
+   [
+    "Semanas en 12 meses",
+    52,
+    "52 semanas"
+   ],
+   [],
+   [
+    "CONSUMO ULTIMOS 7 DIAS (Shopify, referencia histórica)"
+   ],
+   [
+    "Categoría",
+    "Unidades totales"
+   ],
+   [
+    "Serum individual (Shopify)",
+    "=SUMIF('Shopify 7d'!F:F,\"SERUM\",'Shopify 7d'!E:E)"
+   ],
+   [
+    "Champú individual (Shopify)",
+    "=SUMIF('Shopify 7d'!F:F,\"SHAMPOO\",'Shopify 7d'!E:E)"
+   ],
+   [
+    "Packs (unidades-mes por producto)",
+    "=SUMIF('Shopify 7d'!F:F,\"PACK\",'Shopify 7d'!E:E)"
+   ],
+   [
+    "TOTAL SERUM consumido (indiv + packs)",
+    "=B17+B19"
+   ],
+   [
+    "TOTAL CHAMPU consumido (indiv + packs)",
+    "=B18+B19"
+   ],
+   [],
+   [
+    "PREVISION DEMANDA SERUM POR TIMEFRAME"
+   ],
+   [
+    "Timeframe",
+    "Susc (Katching)",
+    "No-Susc (estimado)",
+    "DEMANDA TOTAL",
+    "Stock actual",
+    "Diferencia",
+    "Estado"
+   ],
+   [
+    "Próximos 7 días",
+    "='Katching Suscripciones'!H31",
+    "=B9",
+    "=B25+C25",
+    "=B6",
+    "=E25-D25",
+    "=IF(F25<0,\"URGENTE - reponer stock\",IF(F25<D25*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [
+    "Próximos 30 días",
+    "='Katching Suscripciones'!I31",
+    "=B9*B11",
+    "=B26+C26",
+    "=B6",
+    "=E26-D26",
+    "=IF(F26<0,\"URGENTE - reponer stock\",IF(F26<D26*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [
+    "Próximos 3 meses",
+    "='Katching Suscripciones'!J31",
+    "=B9*B12",
+    "=B27+C27",
+    "=B6",
+    "=E27-D27",
+    "=IF(F27<0,\"URGENTE - reponer stock\",IF(F27<D27*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [
+    "Próximos 12 meses",
+    "='Katching Suscripciones'!K31",
+    "=B9*B13",
+    "=B28+C28",
+    "=B6",
+    "=E28-D28",
+    "=IF(F28<0,\"URGENTE - reponer stock\",IF(F28<D28*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [],
+   [
+    "PREVISION DEMANDA CHAMPU POR TIMEFRAME"
+   ],
+   [
+    "Timeframe",
+    "Susc (Katching)",
+    "No-Susc (estimado)",
+    "DEMANDA TOTAL",
+    "Stock actual",
+    "Diferencia",
+    "Estado"
+   ],
+   [
+    "Próximos 7 días",
+    0,
+    "=B10",
+    "=B32+C32",
+    "=B8",
+    "=E32-D32",
+    "=IF(F32<0,\"URGENTE - reponer stock\",IF(F32<D32*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [
+    "Próximos 30 días",
+    0,
+    "=B10*B11",
+    "=B33+C33",
+    "=B8",
+    "=E33-D33",
+    "=IF(F33<0,\"URGENTE - reponer stock\",IF(F33<D33*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [
+    "Próximos 3 meses",
+    0,
+    "=B10*B12",
+    "=B34+C34",
+    "=B8",
+    "=E34-D34",
+    "=IF(F34<0,\"URGENTE - reponer stock\",IF(F34<D34*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [
+    "Próximos 12 meses",
+    0,
+    "=B10*B13",
+    "=B35+C35",
+    "=B8",
+    "=E35-D35",
+    "=IF(F35<0,\"URGENTE - reponer stock\",IF(F35<D35*0.2,\"Reponer pronto\",\"OK\"))"
+   ],
+   [],
+   [
+    "RECOMENDACION DE REPOSICION DE STOCK"
+   ],
+   [
+    "Producto",
+    "Para 30 días",
+    "Para 3 meses",
+    "Para 12 meses"
+   ],
+   [
+    "SERUM - unidades a comprar YA",
+    "=MAX(0,D26-E26)",
+    "=MAX(0,D27-E27)",
+    "=MAX(0,D28-E28)"
+   ],
+   [
+    "CHAMPU - unidades a comprar YA",
+    "=MAX(0,D33-E33)",
+    "=MAX(0,D34-E34)",
+    "=MAX(0,D35-E35)"
+   ],
+   [],
+   [
+    "NOTAS Y SUPUESTOS"
+   ],
+   [
+    "Champús y Packs - que suscripcion tienen?"
+   ]
+  ],
+  "valores": [
+   [
+    "REPORTE CONSOLIDADO SEMANAL - STOCK Y DEMANDA"
+   ],
+   [
+    "Fecha de generación: 2026-08-03"
+   ],
+   [],
+   [
+    "INPUTS EDITABLES (celdas amarillas)"
+   ],
+   [
+    "Concepto",
+    "Valor",
+    "Detalle"
+   ],
+   [
+    "Stock actual SERUM",
+    "3868",
+    "Unidades físicas en almacén"
+   ],
+   [
+    "Stock en beeping, pendiente de ingresar",
+    "1632",
+    "Unidades físicas en almacén, no disponibles aún"
+   ],
+   [
+    "Stock actual CHAMPU",
+    "1078",
+    "Unidades físicas en almacén"
+   ],
+   [
+    "Ventas SERUM no-suscripción (últimos 7d)",
+    "138"
+   ],
+   [
+    "Ventas CHAMPU no-suscripción (últimos 7d)",
+    "52"
+   ],
+   [
+    "Semanas en el mes (constante)",
+    "4.33",
+    "30/7"
+   ],
+   [
+    "Semanas en 3 meses",
+    "13",
+    "13 semanas"
+   ],
+   [
+    "Semanas en 12 meses",
+    "52",
+    "52 semanas"
+   ],
+   [],
+   [
+    "CONSUMO ULTIMOS 7 DIAS (Shopify, referencia histórica)"
+   ],
+   [
+    "Categoría",
+    "Unidades totales"
+   ],
+   [
+    "Serum individual (Shopify)",
+    "751"
+   ],
+   [
+    "Champú individual (Shopify)",
+    "52"
+   ],
+   [
+    "Packs (unidades-mes por producto)",
+    "71"
+   ],
+   [
+    "TOTAL SERUM consumido (indiv + packs)",
+    "822"
+   ],
+   [
+    "TOTAL CHAMPU consumido (indiv + packs)",
+    "123"
+   ],
+   [],
+   [
+    "PREVISION DEMANDA SERUM POR TIMEFRAME"
+   ],
+   [
+    "Timeframe",
+    "Susc (Katching)",
+    "No-Susc (estimado)",
+    "DEMANDA TOTAL",
+    "Stock actual",
+    "Diferencia",
+    "Estado"
+   ],
+   [
+    "Próximos 7 días",
+    "295",
+    "138",
+    "433",
+    "3,868",
+    "3,435",
+    "OK"
+   ],
+   [
+    "Próximos 30 días",
+    "1,334",
+    "598",
+    "1,932",
+    "3,868",
+    "1,936",
+    "OK"
+   ],
+   [
+    "Próximos 3 meses",
+    "5,042",
+    "1,794",
+    "6,836",
+    "3,868",
+    "-2,968",
+    "URGENTE - reponer stock"
+   ],
+   [
+    "Próximos 12 meses",
+    "20,475",
+    "7,176",
+    "27,651",
+    "3,868",
+    "-23,783",
+    "URGENTE - reponer stock"
+   ],
+   [],
+   [
+    "PREVISION DEMANDA CHAMPU POR TIMEFRAME"
+   ],
+   [
+    "Timeframe",
+    "Susc (Katching)",
+    "No-Susc (estimado)",
+    "DEMANDA TOTAL",
+    "Stock actual",
+    "Diferencia",
+    "Estado"
+   ],
+   [
+    "Próximos 7 días",
+    "0",
+    "52",
+    "52",
+    "1,078",
+    "1,026",
+    "OK"
+   ],
+   [
+    "Próximos 30 días",
+    "0",
+    "225",
+    "225",
+    "1,078",
+    "853",
+    "OK"
+   ],
+   [
+    "Próximos 3 meses",
+    "0",
+    "676",
+    "676",
+    "1,078",
+    "402",
+    "OK"
+   ],
+   [
+    "Próximos 12 meses",
+    "0",
+    "2,704",
+    "2,704",
+    "1,078",
+    "-1,626",
+    "URGENTE - reponer stock"
+   ],
+   [],
+   [
+    "RECOMENDACION DE REPOSICION DE STOCK"
+   ],
+   [
+    "Producto",
+    "Para 30 días",
+    "Para 3 meses",
+    "Para 12 meses"
+   ],
+   [
+    "SERUM - unidades a comprar YA",
+    "0",
+    "2,968",
+    "23,783"
+   ],
+   [
+    "CHAMPU - unidades a comprar YA",
+    "0",
+    "0",
+    "1,626"
+   ],
+   [],
+   [
+    "NOTAS Y SUPUESTOS"
+   ],
+   [
+    "Champús y Packs - que suscripcion tienen?"
+   ]
+  ]
+ },
+ "Shopify 7d": {
+  "rango": "A1:F200",
+  "formulas": [
+   [
+    "DATOS SHOPIFY - ULTIMOS 7 DIAS (incluye suscripciones y pedidos únicos)"
+   ],
+   [],
+   [
+    "Producto",
+    "Variante",
+    "Pedidos",
+    "Multiplicador",
+    "Unidades totales",
+    "Categoria"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "1 mes",
+    156,
+    1,
+    "=C4*D4",
+    "SERUM"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "1 mes",
+    93,
+    1,
+    "=C5*D5",
+    "SERUM"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "3 meses",
+    32,
+    3,
+    "=C6*D6",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "2 meses",
+    41,
+    2,
+    "=C7*D7",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "3 meses",
+    32,
+    3,
+    "=C8*D8",
+    "SERUM"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "2 meses",
+    30,
+    2,
+    "=C9*D9",
+    "SERUM"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "2 meses",
+    32,
+    2,
+    "=C10*D10",
+    "SERUM"
+   ],
+   [
+    "Pack completo para fortalecer y recuperar el cabello",
+    "3 meses",
+    19,
+    3,
+    "=C11*D11",
+    "PACK"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "1 mes",
+    38,
+    1,
+    "=C12*D12",
+    "SERUM"
+   ],
+   [
+    "Champú fortaleza y crecimiento",
+    "Default Title",
+    52,
+    1,
+    "=C13*D13",
+    "SHAMPOO"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "3 meses",
+    14,
+    3,
+    "=C14*D14",
+    "SERUM"
+   ],
+   [
+    "Pack completo para fortalecer y recuperar el cabello",
+    "1 mes",
+    14,
+    1,
+    "=C15*D15",
+    "PACK"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "3 meses",
+    3,
+    3,
+    "=C16*D16",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "1 mes",
+    9,
+    1,
+    "=C17*D17",
+    "SERUM"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "1 mes",
+    4,
+    1,
+    "=C18*D18",
+    "SERUM"
+   ],
+   [
+    "Estimula el folículo y potencia el crecimiento - Dermaroller Capilar Hair Biolabs",
+    "Default Title",
+    6,
+    1,
+    "=C19*D19",
+    "REVISAR"
+   ],
+   [
+    "Oferta Limitada | Sérum Anticaída de Doble Acción Hair Biolabs™",
+    "1 mes",
+    2,
+    1,
+    "=C20*D20",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs™  Prueba",
+    "1 mes",
+    1,
+    1,
+    "=C21*D21",
+    "EXCLUIR"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "1 mes",
+    0,
+    1,
+    "=C22*D22",
+    "SERUM"
+   ],
+   [
+    "Regalo Misterioso",
+    "Default Title",
+    188,
+    1,
+    "=C23*D23",
+    "EXCLUIR"
+   ],
+   [
+    "Guía Cuidado Capilar GRATIS",
+    "Default Title",
+    242,
+    1,
+    "=C24*D24",
+    "EXCLUIR"
+   ],
+   [
+    "Oferta Limitada Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Para la Caída en 14 dias",
+    "1 mes",
+    0,
+    1,
+    "=C25*D25",
+    "SERUM"
+   ]
+  ],
+  "valores": [
+   [
+    "DATOS SHOPIFY - ULTIMOS 7 DIAS (incluye suscripciones y pedidos únicos)"
+   ],
+   [],
+   [
+    "Producto",
+    "Variante",
+    "Pedidos",
+    "Multiplicador",
+    "Unidades totales",
+    "Categoria"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "1 mes",
+    "156",
+    "1",
+    "156",
+    "SERUM"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "1 mes",
+    "93",
+    "1",
+    "93",
+    "SERUM"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "3 meses",
+    "32",
+    "3",
+    "96",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "2 meses",
+    "41",
+    "2",
+    "82",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "3 meses",
+    "32",
+    "3",
+    "96",
+    "SERUM"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "2 meses",
+    "30",
+    "2",
+    "60",
+    "SERUM"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "2 meses",
+    "32",
+    "2",
+    "64",
+    "SERUM"
+   ],
+   [
+    "Pack completo para fortalecer y recuperar el cabello",
+    "3 meses",
+    "19",
+    "3",
+    "57",
+    "PACK"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "1 mes",
+    "38",
+    "1",
+    "38",
+    "SERUM"
+   ],
+   [
+    "Champú fortaleza y crecimiento",
+    "Default Title",
+    "52",
+    "1",
+    "52",
+    "SHAMPOO"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "3 meses",
+    "14",
+    "3",
+    "42",
+    "SERUM"
+   ],
+   [
+    "Pack completo para fortalecer y recuperar el cabello",
+    "1 mes",
+    "14",
+    "1",
+    "14",
+    "PACK"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "3 meses",
+    "3",
+    "3",
+    "9",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "1 mes",
+    "9",
+    "1",
+    "9",
+    "SERUM"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "1 mes",
+    "4",
+    "1",
+    "4",
+    "SERUM"
+   ],
+   [
+    "Estimula el folículo y potencia el crecimiento - Dermaroller Capilar Hair Biolabs",
+    "Default Title",
+    "6",
+    "1",
+    "6",
+    "REVISAR"
+   ],
+   [
+    "Oferta Limitada | Sérum Anticaída de Doble Acción Hair Biolabs™",
+    "1 mes",
+    "2",
+    "1",
+    "2",
+    "SERUM"
+   ],
+   [
+    "Hair Biolabs™  Prueba",
+    "1 mes",
+    "1",
+    "1",
+    "1",
+    "EXCLUIR"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "1 mes",
+    "0",
+    "1",
+    "0",
+    "SERUM"
+   ],
+   [
+    "Regalo Misterioso",
+    "Default Title",
+    "188",
+    "1",
+    "188",
+    "EXCLUIR"
+   ],
+   [
+    "Guía Cuidado Capilar GRATIS",
+    "Default Title",
+    "242",
+    "1",
+    "242",
+    "EXCLUIR"
+   ],
+   [
+    "Oferta Limitada Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Para la Caída en 14 dias",
+    "1 mes",
+    "0",
+    "1",
+    "0",
+    "SERUM"
+   ]
+  ]
+ },
+ "Katching Suscripciones": {
+  "rango": "A1:K200",
+  "formulas": [
+   [
+    "DATOS KATCHING - PREVISION DE SUSCRIPCIONES (unidades = renovaciones × multiplicador)"
+   ],
+   [],
+   [
+    "Producto",
+    "Variante",
+    "Mult.",
+    "Renov. 7d",
+    "Renov. 30d",
+    "Renov. 3m",
+    "Renov. 12m",
+    "Unid. 7d",
+    "Unid. 30d",
+    "Unid. 3m",
+    "Unid. 12m"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "1 mes",
+    1,
+    89,
+    464,
+    1400,
+    5624,
+    "=C4*D4",
+    "=C4*E4",
+    "=C4*F4",
+    "=C4*G4"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "1 mes",
+    1,
+    74,
+    351,
+    1069,
+    4243,
+    "=C5*D5",
+    "=C5*E5",
+    "=C5*F5",
+    "=C5*G5"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "1 mes",
+    1,
+    14,
+    27,
+    86,
+    326,
+    "=C6*D6",
+    "=C6*E6",
+    "=C6*F6",
+    "=C6*G6"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "1 mes",
+    1,
+    10,
+    19,
+    52,
+    202,
+    "=C7*D7",
+    "=C7*E7",
+    "=C7*F7",
+    "=C7*G7"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "3 meses",
+    3,
+    9,
+    27,
+    211,
+    842,
+    "=C8*D8",
+    "=C8*E8",
+    "=C8*F8",
+    "=C8*G8"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "2 meses",
+    2,
+    8,
+    30,
+    91,
+    358,
+    "=C9*D9",
+    "=C9*E9",
+    "=C9*F9",
+    "=C9*G9"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "3 meses",
+    3,
+    7,
+    8,
+    16,
+    66,
+    "=C10*D10",
+    "=C10*E10",
+    "=C10*F10",
+    "=C10*G10"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "2 meses",
+    2,
+    6,
+    38,
+    154,
+    681,
+    "=C11*D11",
+    "=C11*E11",
+    "=C11*F11",
+    "=C11*G11"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "1 mes",
+    1,
+    6,
+    34,
+    103,
+    412,
+    "=C12*D12",
+    "=C12*E12",
+    "=C12*F12",
+    "=C12*G12"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "2 meses",
+    2,
+    3,
+    30,
+    163,
+    779,
+    "=C13*D13",
+    "=C13*E13",
+    "=C13*F13",
+    "=C13*G13"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "3 meses",
+    3,
+    3,
+    7,
+    105,
+    415,
+    "=C14*D14",
+    "=C14*E14",
+    "=C14*F14",
+    "=C14*G14"
+   ],
+   [
+    "Oferta Limitada | Sérum Anticaída de Doble Acción Hair Biolabs™",
+    "1 mes",
+    1,
+    3,
+    6,
+    19,
+    73,
+    "=C15*D15",
+    "=C15*E15",
+    "=C15*F15",
+    "=C15*G15"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "3 meses",
+    3,
+    2,
+    6,
+    54,
+    213,
+    "=C16*D16",
+    "=C16*E16",
+    "=C16*F16",
+    "=C16*G16"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "1 mes",
+    1,
+    2,
+    22,
+    66,
+    266,
+    "=C17*D17",
+    "=C17*E17",
+    "=C17*F17",
+    "=C17*G17"
+   ],
+   [
+    "Oferta Limitada Hair Biolabs REDENSIFY™ Sérum de Triple Acción",
+    "2 meses",
+    2,
+    0,
+    1,
+    2,
+    6,
+    "=C18*D18",
+    "=C18*E18",
+    "=C18*F18",
+    "=C18*G18"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "3 meses",
+    3,
+    0,
+    0,
+    36,
+    144,
+    "=C19*D19",
+    "=C19*E19",
+    "=C19*F19",
+    "=C19*G19"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "2 meses",
+    2,
+    0,
+    11,
+    22,
+    66,
+    "=C20*D20",
+    "=C20*E20",
+    "=C20*F20",
+    "=C20*G20"
+   ],
+   [
+    "Oferta Limitada Hair Biolabs REDENSIFY™ Sérum de Triple Acción",
+    "3 meses",
+    3,
+    0,
+    0,
+    1,
+    4,
+    "=C21*D21",
+    "=C21*E21",
+    "=C21*F21",
+    "=C21*G21"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "2 meses",
+    2,
+    0,
+    1,
+    5,
+    23,
+    "=C22*D22",
+    "=C22*E22",
+    "=C22*F22",
+    "=C22*G22"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción | 1+1 GRATIS",
+    "2 sérum",
+    2,
+    0,
+    1,
+    4,
+    18,
+    "=C23*D23",
+    "=C23*E23",
+    "=C23*F23",
+    "=C23*G23"
+   ],
+   [
+    "Hair Biolabs™ Sérum Anticaída de Doble Acción 1+1 GRATIS",
+    "1 sérum",
+    1,
+    0,
+    1,
+    3,
+    12,
+    "=C24*D24",
+    "=C24*E24",
+    "=C24*F24",
+    "=C24*G24"
+   ],
+   [
+    "Serum Anticaída de Doble Acción - Hair Biolabs®",
+    "3 meses",
+    3,
+    0,
+    0,
+    1,
+    4,
+    "=C25*D25",
+    "=C25*E25",
+    "=C25*F25",
+    "=C25*G25"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "2 meses",
+    2,
+    0,
+    0,
+    8,
+    36,
+    "=C26*D26",
+    "=C26*E26",
+    "=C26*F26",
+    "=C26*G26"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción - Hair Biolabs®",
+    "3 meses",
+    3,
+    0,
+    14,
+    14,
+    59,
+    "=C27*D27",
+    "=C27*E27",
+    "=C27*F27",
+    "=C27*G27"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "3 meses",
+    3,
+    0,
+    0,
+    7,
+    28,
+    "=C28*D28",
+    "=C28*E28",
+    "=C28*F28",
+    "=C28*G28"
+   ],
+   [
+    "Oferta Limitada | Sérum Anticaída de Doble Acción Hair Biolabs™",
+    "3 meses",
+    3,
+    0,
+    0,
+    1,
+    4,
+    "=C29*D29",
+    "=C29*E29",
+    "=C29*F29",
+    "=C29*G29"
+   ],
+   [
+    "Hair Biolabs™ Sérum Anticaída de Doble Acción 1+1 GRATIS",
+    "2 sérum",
+    2,
+    0,
+    0,
+    4,
+    23,
+    "=C30*D30",
+    "=C30*E30",
+    "=C30*F30",
+    "=C30*G30"
+   ],
+   [
+    "TOTAL SERUM",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "=SUM(H4:H30)",
+    "=SUM(I4:I30)",
+    "=SUM(J4:J30)",
+    "=SUM(K4:K30)"
+   ]
+  ],
+  "valores": [
+   [
+    "DATOS KATCHING - PREVISION DE SUSCRIPCIONES (unidades = renovaciones × multiplicador)"
+   ],
+   [],
+   [
+    "Producto",
+    "Variante",
+    "Mult.",
+    "Renov. 7d",
+    "Renov. 30d",
+    "Renov. 3m",
+    "Renov. 12m",
+    "Unid. 7d",
+    "Unid. 30d",
+    "Unid. 3m",
+    "Unid. 12m"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "1 mes",
+    "1",
+    "89",
+    "464",
+    "1400",
+    "5624",
+    "89",
+    "464",
+    "1400",
+    "5624"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "1 mes",
+    "1",
+    "74",
+    "351",
+    "1069",
+    "4243",
+    "74",
+    "351",
+    "1069",
+    "4243"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "1 mes",
+    "1",
+    "14",
+    "27",
+    "86",
+    "326",
+    "14",
+    "27",
+    "86",
+    "326"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "1 mes",
+    "1",
+    "10",
+    "19",
+    "52",
+    "202",
+    "10",
+    "19",
+    "52",
+    "202"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "3 meses",
+    "3",
+    "9",
+    "27",
+    "211",
+    "842",
+    "27",
+    "81",
+    "633",
+    "2526"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "2 meses",
+    "2",
+    "8",
+    "30",
+    "91",
+    "358",
+    "16",
+    "60",
+    "182",
+    "716"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "3 meses",
+    "3",
+    "7",
+    "8",
+    "16",
+    "66",
+    "21",
+    "24",
+    "48",
+    "198"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "2 meses",
+    "2",
+    "6",
+    "38",
+    "154",
+    "681",
+    "12",
+    "76",
+    "308",
+    "1362"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "1 mes",
+    "1",
+    "6",
+    "34",
+    "103",
+    "412",
+    "6",
+    "34",
+    "103",
+    "412"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción | Hair Biolabs™",
+    "2 meses",
+    "2",
+    "3",
+    "30",
+    "163",
+    "779",
+    "6",
+    "60",
+    "326",
+    "1558"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción- Para la Caida en 14 dias",
+    "3 meses",
+    "3",
+    "3",
+    "7",
+    "105",
+    "415",
+    "9",
+    "21",
+    "315",
+    "1245"
+   ],
+   [
+    "Oferta Limitada | Sérum Anticaída de Doble Acción Hair Biolabs™",
+    "1 mes",
+    "1",
+    "3",
+    "6",
+    "19",
+    "73",
+    "3",
+    "6",
+    "19",
+    "73"
+   ],
+   [
+    "Serum Anticaída Hair Biolabs™",
+    "3 meses",
+    "3",
+    "2",
+    "6",
+    "54",
+    "213",
+    "6",
+    "18",
+    "162",
+    "639"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "1 mes",
+    "1",
+    "2",
+    "22",
+    "66",
+    "266",
+    "2",
+    "22",
+    "66",
+    "266"
+   ],
+   [
+    "Oferta Limitada Hair Biolabs REDENSIFY™ Sérum de Triple Acción",
+    "2 meses",
+    "2",
+    "0",
+    "1",
+    "2",
+    "6",
+    "0",
+    "2",
+    "4",
+    "12"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "3 meses",
+    "3",
+    "0",
+    "0",
+    "36",
+    "144",
+    "0",
+    "0",
+    "108",
+    "432"
+   ],
+   [
+    "Serum Anticaída de Doble Acción | Hair Biolabs®",
+    "2 meses",
+    "2",
+    "0",
+    "11",
+    "22",
+    "66",
+    "0",
+    "22",
+    "44",
+    "132"
+   ],
+   [
+    "Oferta Limitada Hair Biolabs REDENSIFY™ Sérum de Triple Acción",
+    "3 meses",
+    "3",
+    "0",
+    "0",
+    "1",
+    "4",
+    "0",
+    "0",
+    "3",
+    "12"
+   ],
+   [
+    "Hair Biolabs™ | Sérum Anticaída de Doble Acción",
+    "2 meses",
+    "2",
+    "0",
+    "1",
+    "5",
+    "23",
+    "0",
+    "2",
+    "10",
+    "46"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción | 1+1 GRATIS",
+    "2 sérum",
+    "2",
+    "0",
+    "1",
+    "4",
+    "18",
+    "0",
+    "2",
+    "8",
+    "36"
+   ],
+   [
+    "Hair Biolabs™ Sérum Anticaída de Doble Acción 1+1 GRATIS",
+    "1 sérum",
+    "1",
+    "0",
+    "1",
+    "3",
+    "12",
+    "0",
+    "1",
+    "3",
+    "12"
+   ],
+   [
+    "Serum Anticaída de Doble Acción - Hair Biolabs®",
+    "3 meses",
+    "3",
+    "0",
+    "0",
+    "1",
+    "4",
+    "0",
+    "0",
+    "3",
+    "12"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "2 meses",
+    "2",
+    "0",
+    "0",
+    "8",
+    "36",
+    "0",
+    "0",
+    "16",
+    "72"
+   ],
+   [
+    "Sérum Anticaída de Doble Acción - Hair Biolabs®",
+    "3 meses",
+    "3",
+    "0",
+    "14",
+    "14",
+    "59",
+    "0",
+    "42",
+    "42",
+    "177"
+   ],
+   [
+    "Hair Biolabs REDENSIFY™ Sérum de Triple Acción - Frena la Caida en 14 dias",
+    "3 meses",
+    "3",
+    "0",
+    "0",
+    "7",
+    "28",
+    "0",
+    "0",
+    "21",
+    "84"
+   ],
+   [
+    "Oferta Limitada | Sérum Anticaída de Doble Acción Hair Biolabs™",
+    "3 meses",
+    "3",
+    "0",
+    "0",
+    "1",
+    "4",
+    "0",
+    "0",
+    "3",
+    "12"
+   ],
+   [
+    "Hair Biolabs™ Sérum Anticaída de Doble Acción 1+1 GRATIS",
+    "2 sérum",
+    "2",
+    "0",
+    "0",
+    "4",
+    "23",
+    "0",
+    "0",
+    "8",
+    "46"
+   ],
+   [
+    "TOTAL SERUM",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "295",
+    "1334",
+    "5042",
+    "20475"
+   ]
+  ]
+ }
+}
