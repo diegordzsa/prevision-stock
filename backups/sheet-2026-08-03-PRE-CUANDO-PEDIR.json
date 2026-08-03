@@ -24,7 +24,7 @@
    ],
    [
     "Stock en beeping, pendiente de ingresar",
-    "",
+    1632,
     "Unidades físicas en almacén, no disponibles aún"
    ],
    [
@@ -205,62 +205,6 @@
    ],
    [],
    [
-    "CUANDO PEDIR (ESTIMADO)"
-   ],
-   [
-    "Parámetro",
-    "Valor",
-    "Detalle"
-   ],
-   [
-    "Fecha base del cálculo",
-    46237,
-    "Fecha de generación del reporte (la escribe el script)"
-   ],
-   [
-    "Lead time proveedor (días)",
-    21,
-    "Desde que pides hasta que está disponible para vender"
-   ],
-   [
-    "Colchón al recibir (días)",
-    7,
-    "Días de cobertura que aún quedan cuando llega el pedido"
-   ],
-   [],
-   [
-    "Producto",
-    "Consumo/día (al agotarse)",
-    "Stock se agota el",
-    "Pedido debe llegar el",
-    "FECHA LIMITE DE PEDIDO",
-    "Días restantes",
-    "Aviso"
-   ],
-   [
-    "SERUM",
-    "=IFERROR(IF(E25>D28,\"-\",IF(E25<=D25,D25/7,IF(E25<=D26,(D26-D25)/23,IF(E25<=D27,(D27-D26)/60,(D28-D27)/275)))),\"-\")",
-    "=IFERROR(IF(E25>D28,\">12 meses\",$B$44+IF(E25<=D25,E25*7/D25,IF(E25<=D26,7+(E25-D25)*23/(D26-D25),IF(E25<=D27,30+(E25-D26)*60/(D27-D26),90+(E25-D27)*275/(D28-D27))))),\"sin datos\")",
-    "=IF(ISNUMBER(C49),C49-$B$46,\"-\")",
-    "=IF(ISNUMBER(D49),D49-$B$45,\"-\")",
-    "=IF(ISNUMBER(E49),INT(E49)-TODAY(),\"-\")",
-    "=IF(NOT(ISNUMBER(E49)),\"Sin riesgo a 12 meses\",IF(F49<=0,\"PEDIR HOY - YA VAS TARDE\",IF(F49<=14,\"PEDIR ESTA SEMANA\",\"OK\")))"
-   ],
-   [
-    "CHAMPU",
-    "=IFERROR(IF(E32>D35,\"-\",IF(E32<=D32,D32/7,IF(E32<=D33,(D33-D32)/23,IF(E32<=D34,(D34-D33)/60,(D35-D34)/275)))),\"-\")",
-    "=IFERROR(IF(E32>D35,\">12 meses\",$B$44+IF(E32<=D32,E32*7/D32,IF(E32<=D33,7+(E32-D32)*23/(D33-D32),IF(E32<=D34,30+(E32-D33)*60/(D34-D33),90+(E32-D34)*275/(D35-D34))))),\"sin datos\")",
-    "=IF(ISNUMBER(C50),C50-$B$46,\"-\")",
-    "=IF(ISNUMBER(D50),D50-$B$45,\"-\")",
-    "=IF(ISNUMBER(E50),INT(E50)-TODAY(),\"-\")",
-    "=IF(NOT(ISNUMBER(E50)),\"Sin riesgo a 12 meses\",IF(F50<=0,\"PEDIR HOY - YA VAS TARDE\",IF(F50<=14,\"PEDIR ESTA SEMANA\",\"OK\")))"
-   ],
-   [],
-   [
-    "Fechas estimadas con la demanda proyectada de Katching. No descuentan pedidos ya en camino."
-   ],
-   [],
-   [
     "NOTAS Y SUPUESTOS"
    ],
    [
@@ -290,7 +234,7 @@
    ],
    [
     "Stock en beeping, pendiente de ingresar",
-    "",
+    "1632",
     "Unidades físicas en almacén, no disponibles aún"
    ],
    [
@@ -468,62 +412,6 @@
     "0",
     "0",
     "1,626"
-   ],
-   [],
-   [
-    "CUANDO PEDIR (ESTIMADO)"
-   ],
-   [
-    "Parámetro",
-    "Valor",
-    "Detalle"
-   ],
-   [
-    "Fecha base del cálculo",
-    "2026-08-03",
-    "Fecha de generación del reporte (la escribe el script)"
-   ],
-   [
-    "Lead time proveedor (días)",
-    "21",
-    "Desde que pides hasta que está disponible para vender"
-   ],
-   [
-    "Colchón al recibir (días)",
-    "7",
-    "Días de cobertura que aún quedan cuando llega el pedido"
-   ],
-   [],
-   [
-    "Producto",
-    "Consumo/día (al agotarse)",
-    "Stock se agota el",
-    "Pedido debe llegar el",
-    "FECHA LIMITE DE PEDIDO",
-    "Días restantes",
-    "Aviso"
-   ],
-   [
-    "SERUM",
-    "81.7",
-    "2026-09-25",
-    "2026-09-18",
-    "2026-08-28",
-    "25",
-    "OK"
-   ],
-   [
-    "CHAMPU",
-    "7.4",
-    "2026-12-25",
-    "2026-12-18",
-    "2026-11-27",
-    "116",
-    "OK"
-   ],
-   [],
-   [
-    "Fechas estimadas con la demanda proyectada de Katching. No descuentan pedidos ya en camino."
    ],
    [],
    [
