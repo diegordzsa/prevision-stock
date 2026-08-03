@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Setup de una sola vez de la seccion CUANDO PEDIR (ESTIMADO).
+"""Setup / reparacion de la seccion CUANDO PEDIR (ESTIMADO).
 
-Ejecutar UNA vez:
+Ejecutar cuando la seccion se rompa o falte:
     C:\\Python314\\python weekly/setup_cuando_pedir.py
     C:\\Python314\\python weekly/setup_cuando_pedir.py --no-write   (dry-run)
 
-Es idempotente: volver a ejecutarlo deja el Sheet igual.
-
+Es idempotente y NO destructivo con lo que el usuario haya editado a mano:
   1. Vacia B7 (dato muerto congelado, ninguna formula lo referencia).
-  2. Escribe la seccion CUANDO PEDIR en las filas 42-52 (pisa las NOTAS viejas).
-  3. Reescribe NOTAS Y SUPUESTOS en las filas 54-55.
-  4. Aplica formatos copiando los que ya usa el Sheet + formato de fecha.
+  2. Lee B45 (lead time) y B46 (colchon) ANTES de tocar nada. Si tienen valor,
+     los CONSERVA tal cual; solo usa los defaults (21 / 7 dias) si estan vacias.
+  3. Lee A54:H60 (NOTAS Y SUPUESTOS) ANTES de tocar nada. Si hay contenido, lo
+     CONSERVA tal cual; solo usa el texto por defecto si esta vacio.
+  4. Reescribe la seccion CUANDO PEDIR en las filas 41-52 (formulas + los
+     valores de B45/B46 conservados o los defaults) y las notas en A54 en
+     adelante (conservadas o el default).
+  5. Aplica formatos copiando los que ya usa el Sheet + formato de fecha.
 
 NO borra la fila 7: eso desplazaria todo hacia arriba y romperia update_sheet.py,
 que escribe B6/B8/B9/B10/B25:B28 por posicion fija.
@@ -65,15 +69,15 @@ def fila_producto(nombre, fila, stock, dem):
     ]
 
 
-def seccion(fecha_base):
+def seccion(fecha_base, lead_time, colchon):
     return [
         ["CUANDO PEDIR (ESTIMADO)"],                                       # 42
         ["Parámetro", "Valor", "Detalle"],                                 # 43
         ["Fecha base del cálculo", fecha_base,
          "Fecha de generación del reporte (la escribe el script)"],        # 44
-        ["Lead time proveedor (días)", LEAD_TIME_DEF,
+        ["Lead time proveedor (días)", lead_time,
          "Desde que pides hasta que está disponible para vender"],         # 45
-        ["Colchón al recibir (días)", COLCHON_DEF,
+        ["Colchón al recibir (días)", colchon,
          "Días de cobertura que aún quedan cuando llega el pedido"],       # 46
         [],                                                                # 47
         ["Producto", "Consumo/día (al agotarse)", "Stock se agota el",
@@ -147,33 +151,66 @@ def main():
     ap.add_argument('--no-write', action='store_true')
     a = ap.parse_args()
 
-    filas = seccion(a.date)
-    print(f"Seccion CUANDO PEDIR: {len(filas)} filas (42-{41+len(filas)})")
-    print(f"Fecha base: {a.date} | lead time {LEAD_TIME_DEF}d | colchon {COLCHON_DEF}d")
-    if a.no_write:
-        print("\n[DRY-RUN] no se escribio nada.")
-        return
-
     api = svc()
     s = api.spreadsheets()
     gid = gid_de(api)
 
-    # 1. limpiar la zona (idempotencia) sin tocar la fila 40
-    s.values().clear(spreadsheetId=SID, range=f"'{HOJA}'!A41:H60").execute()
+    # 0. leer B45:B46 y las notas ANTES de tocar nada, para poder conservarlos.
+    param_actual = s.values().get(spreadsheetId=SID,
+                                  range=f"'{HOJA}'!B45:B46").execute().get('values', [])
+    notas_actuales = s.values().get(spreadsheetId=SID,
+                                    range=f"'{HOJA}'!A54:H60").execute().get('values', [])
+
+    def tiene_valor(fila):
+        return bool(fila) and str(fila[0]).strip() != ''
+
+    if len(param_actual) >= 1 and tiene_valor(param_actual[0]):
+        lead_time = param_actual[0][0]
+        print(f"Conservado lead time existente: {lead_time}")
+    else:
+        lead_time = LEAD_TIME_DEF
+        print(f"B45 vacia -> usando lead time por defecto: {lead_time}")
+
+    if len(param_actual) >= 2 and tiene_valor(param_actual[1]):
+        colchon = param_actual[1][0]
+        print(f"Conservado colchon existente: {colchon}")
+    else:
+        colchon = COLCHON_DEF
+        print(f"B46 vacia -> usando colchon por defecto: {colchon}")
+
+    if notas_actuales and any(any(str(c).strip() for c in fila) for fila in notas_actuales):
+        notas = notas_actuales
+        print(f"Conservadas notas existentes ({len(notas_actuales)} filas).")
+    else:
+        notas = NOTAS
+        print("Notas vacias -> usando texto por defecto.")
+
+    filas = seccion(a.date, lead_time, colchon)
+    print(f"Seccion CUANDO PEDIR: {len(filas)} filas (42-{41+len(filas)})")
+    print(f"Fecha base: {a.date} | lead time {lead_time}d | colchon {colchon}d")
+    if a.no_write:
+        print("\n[DRY-RUN] no se escribio nada.")
+        return
+
+    # 1. limpiar solo la zona de la seccion (41-52); NO tocar 53-60 (notas):
+    #    ya las leimos arriba y las vamos a reinstalar tal cual.
+    s.values().clear(spreadsheetId=SID, range=f"'{HOJA}'!A41:H52").execute()
     # 1b. desfusionar celdas heredadas en la zona 41-60 (filas 43-50 llegaban
     #     fusionadas A:G de un estado previo; escribir valores en B..G de una
     #     fila fusionada los descarta en silencio, asi que hay que desfusionar
-    #     ANTES de escribir valores, no solo antes de aplicar formatos).
+    #     ANTES de escribir valores, no solo antes de aplicar formatos). Se
+    #     desfusiona hasta la fila 60 tambien por si las notas quedaron
+    #     fusionadas de un estado antiguo; no borra nada, ya las leimos.
     s.batchUpdate(spreadsheetId=SID, body={"requests": [
         {"unmergeCells": {"range": rango(gid, 41, 60, 0, 8)}}]}).execute()
     # 2. vaciar B7 (dato muerto)
     s.values().clear(spreadsheetId=SID, range=f"'{HOJA}'!B7").execute()
-    # 3. escribir seccion + notas
+    # 3. escribir seccion + notas (conservadas o default)
     res = s.values().batchUpdate(spreadsheetId=SID, body={
         "valueInputOption": "USER_ENTERED",
         "data": [
             {"range": f"'{HOJA}'!A42", "values": filas},
-            {"range": f"'{HOJA}'!A54", "values": NOTAS},
+            {"range": f"'{HOJA}'!A54", "values": notas},
         ]}).execute()
     print(f"Celdas escritas: {res.get('totalUpdatedCells')}")
     # 4. formatos

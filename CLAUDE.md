@@ -25,6 +25,12 @@ re-explicar. No preguntes cosas ya resueltas aquí; solo actúa.
    `--colchon <N>` (def = lo que haya en B46).
 4. El script sobrescribe las 3 hojas, verifica que no haya errores y **imprime el reporte**.
    Pásale ese reporte al usuario en el chat con el formato de abajo.
+5. Corre `C:\Python314\python weekly/verificar_fechas.py`. Contrasta las fechas de CUANDO
+   PEDIR del Sheet contra el oráculo de `weekly/burndown.py`: caza fórmulas mal arrastradas
+   o editadas a mano que devuelven un número plausible pero equivocado (el escaneo de
+   errores del paso 4 no lo detecta porque no produce un `#ERROR`, solo una fecha mala).
+   Si dice "DISCREPANCIAS", revisa las fórmulas de la fila que falló antes de mandar el
+   reporte.
 
 Antes de escribir en firme, un `--no-write` rápido es buena práctica para revisar conteos y
 avisos de categoría `REVISAR` (producto que el script no supo clasificar → míralo a mano).
@@ -81,9 +87,20 @@ Notas semana a semana: [productos nuevos/que desaparecen, cambios grandes]
   depende del MCP, escribe directo por API.
 - Python: `C:\Python314\python`. Deps ya instaladas (`google-api-python-client`, `openpyxl`).
 - `weekly/setup_cuando_pedir.py` ya se ejecutó (2026-08-03). Solo hay que volver a
-  correrlo si se rompe la sección CUANDO PEDIR. Es idempotente.
+  correrlo si se rompe la sección CUANDO PEDIR. Es idempotente y **conserva** B45 (lead
+  time) y B46 (colchón) y las NOTAS existentes si ya tienen contenido — solo repone los
+  defaults (21d / 7d) cuando esas celdas están vacías. Lo dice en su propia salida
+  ("Conservado lead time existente: X" / "usando ... por defecto").
 - `weekly/verificar_fechas.py` contrasta las fechas del Sheet con `weekly/burndown.py`.
-  Útil si alguna fecha parece rara.
+  Es el paso 5 del flujo semanal (ver arriba); también útil suelto si alguna fecha parece
+  rara.
 - Backup/restore del Sheet: `C:\Python314\python backups/backup_sheet.py` (guarda
   `backups/sheet-<fecha>.json`) y `C:\Python314\python backups/backup_sheet.py --restore
   backups/sheet-<fecha>.json` para revertir (reescribe fórmulas tal cual estaban).
+  **Ojo:** cualquier snapshot **anterior al 2026-08-03** es de antes de la sección CUANDO
+  PEDIR — restaurarlo la borra entera (sin error visible; el siguiente reporte saldría sin
+  fecha de pedido). Tras **cualquier** `--restore`, re-ejecuta
+  `weekly/setup_cuando_pedir.py` — `restaurar()` reescribe fórmulas pero no formatos ni
+  merges, así que las fechas saldrían como seriales crudos (p.ej. `46295`) hasta hacerlo.
+  El snapshot pre-feature quedó renombrado a `backups/sheet-2026-08-03-PRE-CUANDO-PEDIR.json`
+  para que nadie lo restaure por error.

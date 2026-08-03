@@ -106,8 +106,17 @@ def main():
     if base is None:
         # B44 llega como serial de Sheets (dias desde 1899-12-30)
         base = EPOCA + datetime.timedelta(days=int(b44))
-    lead = int(num(val(s, 'B45')[0][0]))
-    colchon = int(num(val(s, 'B46')[0][0]))
+    b45 = val(s, 'B45')
+    b46 = val(s, 'B46')
+    b45_ok = b45 and b45[0] and str(b45[0][0]).strip() != ''
+    b46_ok = b46 and b46[0] and str(b46[0][0]).strip() != ''
+    if not (b45_ok and b46_ok):
+        print("[AVISO] B45 (lead time) o B46 (colchon) esta vacia - no puedo "
+              "verificar fechas. Rellena esas celdas o re-ejecuta "
+              "weekly/setup_cuando_pedir.py")
+        sys.exit(1)
+    lead = int(num(b45[0][0]))
+    colchon = int(num(b46[0][0]))
     print(f"Fecha base {base} | lead {lead}d | colchon {colchon}d\n")
 
     CASOS = [

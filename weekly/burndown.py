@@ -9,8 +9,6 @@ y 12 meses. Los tramos y sus longitudes en dias: 0-7 (7), 7-30 (23),
 30-90 (60), 90-365 (275).
 """
 
-TRAMOS = ((0, 7), (7, 30), (30, 90), (90, 365))
-
 
 def _tramo(stock, demandas):
     """Devuelve (inicio_dia, largo_dias, dem_inicio, dem_incremental) del tramo

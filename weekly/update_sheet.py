@@ -220,18 +220,31 @@ def main():
         print(f"- CHAMPU: {reco[1][0]}")
     pedir = g("'Reporte Consolidado'!A49:G50")
     param = g("'Reporte Consolidado'!B45:B46")
-    if pedir and param:
+    param_ok = (len(param) >= 2
+                and param[0] and str(param[0][0]).strip() != ''
+                and param[1] and str(param[1][0]).strip() != '')
+    if pedir and param_ok:
         lead, colchon = param[0][0], param[1][0]
         print(f"\nCUANDO PEDIR (lead time {lead}d, colchon {colchon}d)")
         for row in pedir:
             # A=producto B=cons/dia C=agota D=llega E=limite F=dias G=aviso
             r = row + [''] * (7 - len(row))
-            print(f"- {r[0]}: pedir antes del {r[4]} (quedan {r[5]} dias) "
-                  f"- stock se agota ~{r[2]} [{r[6]}]")
+            if r[6] == 'Sin riesgo a 12 meses':
+                print(f"- {r[0]}: sin riesgo, el stock cubre mas de 12 meses")
+            else:
+                print(f"- {r[0]}: pedir antes del {r[4]} (quedan {r[5]} dias) "
+                      f"- stock se agota ~{r[2]} [{r[6]}]")
         print("  (no descuenta pedidos ya en camino)")
         for row in pedir:
             if len(row) > 6 and 'PEDIR HOY' in row[6]:
                 urg.append(f"{row[0]} - pedido fuera de plazo")
+    elif pedir and not param_ok:
+        print("\n[AVISO] B45 (lead time) o B46 (colchon) esta vacia - la FECHA "
+              "LIMITE DE PEDIDO seria incorrecta, no calculo CUANDO PEDIR. "
+              "Rellena B45/B46 o re-ejecuta weekly/setup_cuando_pedir.py")
+    else:
+        print("\n[AVISO] no encontre la seccion CUANDO PEDIR en A49:G50 - "
+              "re-ejecuta weekly/setup_cuando_pedir.py")
     print("\nALERTAS URGENTES:", ", ".join(urg) if urg else "ninguna")
     print("\nERRORES DE FORMULA:", errs if errs else "NINGUNO")
     print("="*54)
