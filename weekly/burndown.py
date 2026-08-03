@@ -46,4 +46,6 @@ def tasa_al_agotarse(stock, demandas):
     if t is None:
         return None
     _, largo, _, dem_incr = t
+    if dem_incr <= 0:
+        return None
     return dem_incr / largo
