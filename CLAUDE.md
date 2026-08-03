@@ -36,10 +36,16 @@ avisos de categoría `REVISAR` (producto que el script no supo clasificar → m�
 - **Katching:** se excluye cualquier producto con `prueba`. Unidades = renovaciones × mult.
   Fila TOTAL SERUM al final (posición dinámica).
 - **Champú = 100% no-suscripción** (Katching nunca tiene renovaciones de champú).
-- **"Stock en beeping" (Consolidado B7)**: informativo, NO se toca, NO entra al cálculo.
 - **Consolidado:** solo se tocan celdas amarillas (B6 stock serum, B8 stock champú,
   B9 ventas serum, B10 ventas champú) + las referencias Susc del serum (B25:B28) que
   enlazan a la fila TOTAL SERUM de Katching. **No tocar** las fórmulas de Estado/Recomendación.
+- **Fecha de pedido (sección CUANDO PEDIR, filas 42-52 del Consolidado):** burn-down
+  sobre los 4 tramos de Katching (0-7 / 7-30 / 30-90 / 90-365). `fecha_pedido =
+  agotamiento − colchón − lead time`. Lead time (B45) y colchón (B46) son **amarillas
+  editables**: el script solo las pisa si pasas `--lead-time` / `--colchon`.
+- **B7 está vacía a propósito** (dato muerto, ninguna fórmula la usa). No la rellenes y
+  **no borres la fila 7**: desplazaría todo y rompería las referencias fijas del script.
+- Solo cuenta stock físico disponible; no descuenta entrante ni reservado.
 
 ## Formato del reporte para el chat
 ```
@@ -53,6 +59,9 @@ Champu (stock: X unidades)
 
 ALERTAS URGENTES: [solo estados URGENTE, con cuántas faltan]
 RECOMENDACION DE COMPRA INMEDIATA (30 dias): SERUM X · CHAMPU X
+CUANDO PEDIR (lead time Xd, colchon Xd)
+- SERUM:  pedir antes del <fecha> (quedan X dias) - stock se agota ~<fecha>
+- CHAMPU: pedir antes del <fecha> (quedan X dias) - stock se agota ~<fecha>
 Notas semana a semana: [productos nuevos/que desaparecen, cambios grandes]
 ```
 
@@ -64,3 +73,7 @@ Notas semana a semana: [productos nuevos/que desaparecen, cambios grandes]
 - MCP `google-sheets` también registrado en Claude Code (carga al reiniciar); el script no
   depende del MCP, escribe directo por API.
 - Python: `C:\Python314\python`. Deps ya instaladas (`google-api-python-client`, `openpyxl`).
+- `weekly/setup_cuando_pedir.py` ya se ejecutó (2026-08-03). Solo hay que volver a
+  correrlo si se rompe la sección CUANDO PEDIR. Es idempotente.
+- `weekly/verificar_fechas.py` contrasta las fechas del Sheet con `weekly/burndown.py`.
+  Útil si alguna fecha parece rara.
