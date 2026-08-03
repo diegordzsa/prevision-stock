@@ -125,6 +125,10 @@ def main():
     ap.add_argument('--ventas-champu', type=int, default=None, help='def = unidades SHAMPOO Shopify')
     ap.add_argument('--date', default=datetime.date.today().isoformat())
     ap.add_argument('--no-write', action='store_true')
+    ap.add_argument('--lead-time', type=int, default=None,
+                    help='dias de lead time del proveedor (def = lo que haya en B45)')
+    ap.add_argument('--colchon', type=int, default=None,
+                    help='dias de cobertura al recibir (def = lo que haya en B46)')
     a = ap.parse_args()
 
     shop = load_shopify()
@@ -173,7 +177,13 @@ def main():
         {"range":"'Reporte Consolidado'!B26","values":[[f"='Katching Suscripciones'!I{total_row}"]]},
         {"range":"'Reporte Consolidado'!B27","values":[[f"='Katching Suscripciones'!J{total_row}"]]},
         {"range":"'Reporte Consolidado'!B28","values":[[f"='Katching Suscripciones'!K{total_row}"]]},
+        {"range":"'Reporte Consolidado'!B44","values":[[a.date]]},
     ]
+    # B45/B46 solo se pisan si se pasan los flags: son celdas editables a mano
+    if a.lead_time is not None:
+        data.append({"range":"'Reporte Consolidado'!B45","values":[[a.lead_time]]})
+    if a.colchon is not None:
+        data.append({"range":"'Reporte Consolidado'!B46","values":[[a.colchon]]})
     res = s.values().batchUpdate(spreadsheetId=SID,
             body={"valueInputOption":"USER_ENTERED","data":data}).execute()
     print(f"Celdas escritas: {res.get('totalUpdatedCells')}")
@@ -183,7 +193,7 @@ def main():
         return s.values().get(spreadsheetId=SID, range=rng,
                               valueRenderOption='FORMATTED_VALUE').execute().get('values',[])
     errs = []
-    for rng in ["'Reporte Consolidado'!A1:H45","'Shopify 7d'!A1:F200","'Katching Suscripciones'!A1:K200"]:
+    for rng in ["'Reporte Consolidado'!A1:H60","'Shopify 7d'!A1:F200","'Katching Suscripciones'!A1:K200"]:
         for row in g(rng):
             for c in row:
                 if isinstance(c,str) and c.startswith('#'): errs.append(c)
@@ -204,11 +214,25 @@ def main():
     print(f"\nChampu (stock: {a.stock_champu} unidades)")
     for row in champu: print(line(row))
     urg = [row[0] for row in serum+champu if 'URGENTE' in row[6]]
-    print("\nALERTAS URGENTES:", ", ".join(urg) if urg else "ninguna")
     if reco:
         print("\nRECOMENDACION DE COMPRA INMEDIATA (30 dias):")
         print(f"- SERUM:  {reco[0][0]}")
         print(f"- CHAMPU: {reco[1][0]}")
+    pedir = g("'Reporte Consolidado'!A49:G50")
+    param = g("'Reporte Consolidado'!B45:B46")
+    if pedir and param:
+        lead, colchon = param[0][0], param[1][0]
+        print(f"\nCUANDO PEDIR (lead time {lead}d, colchon {colchon}d)")
+        for row in pedir:
+            # A=producto B=cons/dia C=agota D=llega E=limite F=dias G=aviso
+            r = row + [''] * (7 - len(row))
+            print(f"- {r[0]}: pedir antes del {r[4]} (quedan {r[5]} dias) "
+                  f"- stock se agota ~{r[2]} [{r[6]}]")
+        print("  (no descuenta pedidos ya en camino)")
+        for row in pedir:
+            if len(row) > 6 and 'PEDIR HOY' in row[6]:
+                urg.append(f"{row[0]} - pedido fuera de plazo")
+    print("\nALERTAS URGENTES:", ", ".join(urg) if urg else "ninguna")
     print("\nERRORES DE FORMULA:", errs if errs else "NINGUNO")
     print("="*54)
 
