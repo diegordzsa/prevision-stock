@@ -1,3 +1,12 @@
 __pycache__/
 *.pyc
 .superpowers/
+
+# Llaves de cuenta de servicio de Google - NUNCA versionar.
+# (backups/sheet-*.json SI se versiona: son volcados de formulas, no llaves)
+prevision-stock-*.json
+credentials/
+*-service-account.json
+
+# Guia paralela para Codex, no forma parte del repo
+AGENTS.md

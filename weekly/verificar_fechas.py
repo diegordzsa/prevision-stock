@@ -21,8 +21,10 @@ from burndown import dia_agotamiento
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from credenciales import ruta_llave
+
 SID = '1wNXOy6dIjQqfgsSmnqvdEVFmCv-ibj0kgy4BuyYQvZ8'
-KEY = r'C:\Users\diego\Downloads\prevision-stock-5264cd38736b.json'
 HOJA = 'Reporte Consolidado'
 
 EPOCA = datetime.date(1899, 12, 30)
@@ -30,7 +32,7 @@ EPOCA = datetime.date(1899, 12, 30)
 
 def svc():
     creds = service_account.Credentials.from_service_account_file(
-        KEY, scopes=['https://www.googleapis.com/auth/spreadsheets.readonly'])
+        ruta_llave(), scopes=['https://www.googleapis.com/auth/spreadsheets.readonly'])
     return build('sheets', 'v4', credentials=creds).spreadsheets()
 
 

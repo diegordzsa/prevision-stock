@@ -19,12 +19,14 @@ Es idempotente y NO destructivo con lo que el usuario haya editado a mano:
 NO borra la fila 7: eso desplazaria todo hacia arriba y romperia update_sheet.py,
 que escribe B6/B8/B9/B10/B25:B28 por posicion fija.
 """
-import argparse, datetime
+import argparse, datetime, os, sys
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from credenciales import ruta_llave
+
 SID = '1wNXOy6dIjQqfgsSmnqvdEVFmCv-ibj0kgy4BuyYQvZ8'
-KEY = r'C:\Users\diego\Downloads\prevision-stock-5264cd38736b.json'
 HOJA = 'Reporte Consolidado'
 
 LEAD_TIME_DEF = 21
@@ -93,7 +95,7 @@ def seccion(fecha_base, lead_time, colchon):
 
 def svc():
     creds = service_account.Credentials.from_service_account_file(
-        KEY, scopes=['https://www.googleapis.com/auth/spreadsheets'])
+        ruta_llave(), scopes=['https://www.googleapis.com/auth/spreadsheets'])
     return build('sheets', 'v4', credentials=creds)
 
 

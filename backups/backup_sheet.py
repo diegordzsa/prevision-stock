@@ -7,12 +7,14 @@
 El restore reescribe las formulas tal cual estaban (USER_ENTERED), no los
 valores calculados.
 """
-import argparse, datetime, json, os
+import argparse, datetime, json, os, sys
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from credenciales import ruta_llave
+
 SID = '1wNXOy6dIjQqfgsSmnqvdEVFmCv-ibj0kgy4BuyYQvZ8'
-KEY = r'C:\Users\diego\Downloads\prevision-stock-5264cd38736b.json'
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 RANGOS = {
@@ -24,7 +26,7 @@ RANGOS = {
 
 def svc():
     creds = service_account.Credentials.from_service_account_file(
-        KEY, scopes=['https://www.googleapis.com/auth/spreadsheets'])
+        ruta_llave(), scopes=['https://www.googleapis.com/auth/spreadsheets'])
     return build('sheets', 'v4', credentials=creds).spreadsheets()
 
 

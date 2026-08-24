@@ -80,12 +80,18 @@ Notas semana a semana: [productos nuevos/que desaparecen, cambios grandes]
 
 ## Infra
 - Google Sheet: **"Reporte Stock HairBiolabs - Semanal"**, id `1wNXOy6dIjQqfgsSmnqvdEVFmCv-ibj0kgy4BuyYQvZ8`.
+- Repo: `https://github.com/diegordzsa/prevision-stock` (privado). Mismo proyecto en los
+  dos ordenadores; no hace falta commitear cada reporte semanal.
 - Escritura: cuenta de servicio `claude-sheets@prevision-stock.iam.gserviceaccount.com`
-  (Editor del Sheet). Llave en `C:\Users\diego\Downloads\prevision-stock-5264cd38736b.json`
-  (fuera del proyecto, no la muevas a OneDrive). El script usa esa llave vía Sheets API.
+  (Editor del Sheet). La llave **nunca se versiona**; `credenciales.py` la busca en este
+  orden: variable de entorno `PREVISION_STOCK_KEY` → `credentials/service-account.json`
+  dentro del repo → `C:\Users\diego\Downloads\prevision-stock-5264cd38736b.json` (la
+  ubicación histórica de este ordenador; no la muevas a OneDrive). Si falta, los scripts
+  fallan con un mensaje que dice las tres opciones. Ver `README.md`.
 - MCP `google-sheets` también registrado en Claude Code (carga al reiniciar); el script no
   depende del MCP, escribe directo por API.
-- Python: `C:\Python314\python`. Deps ya instaladas (`google-api-python-client`, `openpyxl`).
+- Python: en este ordenador `C:\Python314\python`; en otro, el `python` que haya (3.9+).
+  Deps en `requirements.txt` (`google-api-python-client`, `google-auth`) — ya instaladas aquí.
 - `weekly/setup_cuando_pedir.py` ya se ejecutó (2026-08-03). Solo hay que volver a
   correrlo si se rompe la sección CUANDO PEDIR. Es idempotente y **conserva** B45 (lead
   time) y B46 (colchón) y las NOTAS existentes si ya tienen contenido — solo repone los

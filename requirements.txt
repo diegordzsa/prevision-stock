@@ -1,0 +1,4 @@
+# Unicas dependencias de terceros que importan los scripts.
+# Versiones instaladas y probadas en el ordenador original (Python 3.14).
+google-api-python-client>=2.198.0
+google-auth>=2.56.0
